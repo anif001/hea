@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health Results</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background: #f0f4f8;
+        margin: 0;
+        padding: 20px;
+      }
+
+      h1, h2 {
+        text-align: center;
+        color: #333;
+      }
+
+      .info {
+        text-align: center;
+        font-size: 18px;
+        font-weight: 600;
+        margin: 10px 0;
+      }
+
+      .button-group {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 20px 0;
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      button:hover {
+        background: #388e3c;
+      }
+
+      .section {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease;
+        position: absolute;
+        width: 100%;
+        left: 0;
+      }
+
+      .section.active {
+        opacity: 1;
+        visibility: visible;
+        position: static;
+      }
+
+      .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+        margin-top: 10px;
+      }
+
+      .card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        width: 240px;
+        text-align: center;
+        transition: transform 0.2s;
+      }
+
+      .card:hover {
+        transform: scale(1.03);
+      }
+
+      .card img {
+        max-width: 100%;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+
+      .desc {
+        font-size: 14px;
+        color: #555;
+        margin-top: 5px;
+      }
+
+      h3 {
+        margin-bottom: 5px;
+      }
+
+      @media (max-width: 600px) {
+        .card {
+          width: 100%;
+        }
+
+        button {
+          width: 100%;
+        }
+
+        .button-group {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🎯 Your Personalized Health Report</h1>
+    <div class="info" id="bmi"></div>
+    <div class="info" id="bmr"></div>
+    <div class="info" id="bmiCategory"></div>
+
+    <div class="button-group">
+      <button onclick="location.href='index.html'">🏠 Home</button>
+      <button onclick="location.href='dashboard.html'">📊 Dashboard</button>
+      <button id="showDietBtn">🍽 View Diet Plan</button>
+      <button id="showExercisesBtn">🏋 Exercises</button>
+      <button id="showYogaBtn">🧘 Yoga</button>
+    </div>
+
+    <div id="dietSection" class="section">
+      <h2>🍽 Diet Plan</h2>
+      <div id="dietPlan" class="card-container"></div>
+    </div>
+    
+
+    <div id="exerciseSection" class="section">
+      <h2>🏋 Exercises</h2>
+      <div id="exercises" class="card-container"></div>
+    </div>
+
+    <div id="yogaSection" class="section">
+      <h2>🧘 Yoga Poses</h2>
+      <div id="yoga" class="card-container"></div>
+    </div>
+
+    <script>
+      // Get data from localStorage
+      const bmi = localStorage.getItem("bmi");
+      const bmr = localStorage.getItem("bmr");
+      const diet = JSON.parse(localStorage.getItem("diet"));
+      const exercises = JSON.parse(localStorage.getItem("exercises"));
+      const yoga = JSON.parse(localStorage.getItem("yoga"));
+
+      // Display BMI and BMR
+      document.getElementById("bmi").textContent = `Your BMI: ${bmi}`;
+      document.getElementById("bmr").textContent = `Your BMR: ${bmr} cal/day`;
+
+      // Calculate BMI category
+      let category = "";
+      if (bmi < 18.5) category = "Underweight";
+      else if (bmi < 24.9) category = "Normal";
+      else if (bmi < 29.9) category = "Overweight";
+      else category = "Obese";
+
+      document.getElementById("bmiCategory").textContent = `BMI Category: ${category}`;
+
+      // Display cards for exercises or yoga
+      function generateCards(items, containerId) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = "";
+        items.forEach(item => {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <img src="${item.image}" alt="${item.name}" />
+            <h3>${item.name}</h3>
+            <p class="desc">${item.description}</p>
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      // Button event listeners
+      document.getElementById("showDietBtn").addEventListener("click", () => {
+        document.getElementById("dietSection").classList.add("active");
+        document.getElementById("exerciseSection").classList.remove("active");
+        document.getElementById("yogaSection").classList.remove("active");
+        generateCards(diet, "dietPlan");
+      });
+
+      document.getElementById("showExercisesBtn").addEventListener("click", () => {
+        document.getElementById("exerciseSection").classList.add("active");
+        document.getElementById("dietSection").classList.remove("active");
+        document.getElementById("yogaSection").classList.remove("active");
+        generateCards(exercises, "exercises");
+      });
+
+      document.getElementById("showYogaBtn").addEventListener("click", () => {
+        document.getElementById("yogaSection").classList.add("active");
+        document.getElementById("dietSection").classList.remove("active");
+        document.getElementById("exerciseSection").classList.remove("active");
+        generateCards(yoga, "yoga");
+      });
+    </script>
+  </body>
+</html>

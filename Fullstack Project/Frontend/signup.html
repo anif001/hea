@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up - Health Advisor</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      /* Basic layout consistency */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+
+      header {
+        background-color: rgb(41, 41, 152);
+        padding: 15px;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: white;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 20px;
+      }
+
+      .nav-links li {
+        list-style: none;
+      }
+
+      .nav-links li a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .nav-links li a:hover {
+        color: #ffd700;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: auto;
+        padding: 40px 20px;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+      }
+
+      h1 {
+        font-size: 2rem;
+        text-align: center;
+        color: #333;
+      }
+
+      form {
+        margin-top: 30px;
+      }
+
+      .input-group {
+        margin-bottom: 15px;
+      }
+
+      .input-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 1rem;
+      }
+
+      .input-group input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        background-color: #0d6efd;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #0b5ed7;
+      }
+
+      p {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      a {
+        color: #0d6efd;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      /* Footer */
+      footer {
+        background-color: #0d6efd;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        margin-top: 50px;
+      }
+      #message{
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 20px;
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="logo">Health Advisor</div>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html">Login</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="container">
+      <h1>Are you a new user? Welcome to Health Advisor 🧘‍♂</h1>
+
+      <form
+        id="signupForm"
+        action="http://localhost:5600/users/addUser"
+        method="POST"
+      >
+        <div class="input-group">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Username"
+            required
+          />
+        </div>
+        <div class="input-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Email Id"
+          
+            required
+           
+          />
+        </div>
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Password"
+            required
+            
+          />
+        </div>
+        <button type="submit" onclick="validate()">Register</button>
+      </form>
+
+      <p>Already have an account? <a href="index.html">Login here</a></p>
+      <p id="message"></p>
+    </div>
+
+    <footer>
+      <p>&copy; 2025 Health Advisor</p>
+      <p>Developed by Group 10 | Email: support@healthadvisor.com</p>
+    </footer>
+
+    <script>
+      const emailEl = document.getElementById("email");
+      const messageEl = document.getElementById("message");
+      const email = emailEl.value;
+      let substr = ".com";
+      let c=0;
+      let j=3;
+      function validate() {
+        if(!email.includes(substr)) {
+          messageEl.textContent = "please enter valid email Id";
+          return;
+        }
+        else{
+          messageEl.textContent = "";
+
+        }
+      }
+      
+      
+    </script>
+  </body>
+</html>
